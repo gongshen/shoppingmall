@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/static/img/favicon.png">
+    <!-- stylesheet -->
+    <link rel="stylesheet" href="static/css/reset.css" type="text/css" />
+    <link rel="stylesheet" href="static/css/style.css" type="text/css" />
+    <script src="static/js/ .js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+		<title>首页</title>
+</head>
+<body>
+{{$Uid:=.Uid}}
+<nav class="navbar navbar-default navbar-static-top">
+    <nav class="container">
+        <a class="navbar-brand" href="/">首页</a>
+        <div class="pull-right">
+            <ul class="nav navbar-nav">
+			{{if .IsLogin}}
+                <li><a>余额：¥{{.Balance}}</a></li>
+                <li><a href="/order?u={{$Uid}}">我的订单</a></li>
+                <li><a href="/login?exit=true">退出</a></li>
+			{{else}}
+                <li><a href="/login">登陆</a></li>
+                <li><a href="/register">注册</a> </li>
+			{{end}}
+            </ul>
+        </div>
+    </nav>
+</nav>
+<a href="/showcart?u={{.Uid}}" class="cd-cart">
+	<span>0</span>
+</a>
+
+<ul class="cd-gallery">
+	{{range .Products}}
+	<li>
+		<div class="cd-single-item">
+			<a>
+					<img src="attachment/{{.Img}}" alt="Preview image">
+			</a>
+			<div class="cd-customization">
+				<button class="add-to-cart" onclick="add({{.Id}},{{$Uid}},{{.Remarks}});">
+					<em>添加到购物车</em>
+					<svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32">
+						<path stroke-dasharray="19.79 19.79" stroke-dashoffset="19.79" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11"/>
+					</svg>
+				</button>
+			</div>
+			<button class="cd-customization-trigger">Customize</button>
+		</div>
+
+    <div class="cd-item-info">
+		<b>{{.Name}}</b>
+		<br>
+		<b>数量：</b>
+      	<input id="id_num{{.Id}}" type="number" min="0" step="1" value="1" width="25px">
+		<em>¥{{.Price}}</em>
+	</div>
+	</li>
+{{end}}
+
+</ul>
+<p></p>
+<script type="text/javascript" src="static/js/jquery-2.1.4.js"></script>
+<script type="text/javascript" src="static/js/main.js"></script>
+
+</body>
+<script>
+function add(pid,uid,remarks)
+{
+  var num = $("#id_num"+pid).val();
+  //显示增加数字
+  // alert(num);
+  $.ajax({
+	  type: "post",
+	  url: "/additem",
+	  data:{p:pid,n:num,u:uid,remarks:remarks},
+	  dataType: "json",
+	  success: function(data){
+		  			if(data){
+						//$("#id_span").text(data.name);
+						alert(data.status);
+					} else{
+						alert('失败');
+					}
+	  }
+  });
+}
+</script>
+</html>

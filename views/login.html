@@ -1,0 +1,61 @@
+{{template "header"}}
+    <title>登陆</title>
+</head>
+<body>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="container" style="width: 500px">
+    <!--方法是post,提交到/login-->
+    <form method="post" action="/login" >
+        <div class="form-group">
+            <label>帐号</label>
+            <input id="uname" class="form-control" placeholder="Account" name="uname">
+        </div>
+        <div class="form-group">
+            <label>密码</label>
+            <input id="pwd" type="password" class="form-control" placeholder="Password" name="pwd">
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" name="autoLogin"> 自动登录
+            </label>
+        </div>
+        <button type="submit" class="btn btn-default" onclick="return checkInput();">登录</button>
+        <button class="btn btn-default" onclick="return backToHome();">返回</button>
+        <button type="button" class="btn btn-link" onclick=" return backToRegister();">没有账号？去注册-></button>
+
+    </form>
+    <!--使用js当密码帐号为空时,或者错误时-->
+    <script type="text/javascript">
+        function checkInput() {
+            var uname=document.getElementById("uname")
+            if (uname.value.length == 0){
+                alert("请输入帐号");
+                return false;
+            }
+
+            var pwd=document.getElementById("pwd")
+            if (pwd.value.length == 0){
+    alert("密码不能为空");
+    return false;
+    }
+    return true;
+    }
+
+    <!-- 返回首页——永远是false,使表单永远不被提交-->
+    function backToHome() {
+        window.location.href = "/";
+        return false;
+    }
+    function backToRegister() {
+        window.location.href="/register";
+        return false;
+    }
+    </script>
+</div>
+</body>
+</html>

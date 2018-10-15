@@ -1,0 +1,15 @@
+{{define "navbar"}}
+                <a class="navbar-brand" href="/">首页</a>
+                <div class="pull-right">
+                                    <ul class="nav navbar-nav">
+                                    {{if .IsLogin}}
+                                            <li><a href="/login?exit=true">退出</a></li>
+                                    {{else}}
+                                            <li><a href="/login">登陆</a></li>
+                                            <li><a href="/register">注册</a> </li>
+
+                                    {{end}}
+
+                                    </ul>
+                </div>
+{{end}}
